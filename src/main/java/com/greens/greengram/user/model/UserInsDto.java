@@ -1,0 +1,11 @@
+package com.greens.greengram.user.model;
+
+import lombok.Data;
+
+@Data
+public class UserInsDto {
+    private String uid;
+    private String ipw;
+    private String nm;
+    private String pic;
+}
