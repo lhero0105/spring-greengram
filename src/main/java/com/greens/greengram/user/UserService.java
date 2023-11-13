@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+// final은 바로 값을 넣어주지 않으면 에러
+// final이 있는 애들만 생성자로 넣어줍니다.
 public class UserService {
     private final UserMapper mapper;
     public int postUser(UserInsDto dto) {
@@ -17,11 +19,11 @@ public class UserService {
     public ResVo signin(UserSigninDto dto){
         int result = 3;
 
-        String savedIpw = mapper.selUserByUid(dto.getUid());
-        System.out.println("savedIpw : " + savedIpw);
-        if(savedIpw == null){
+        String savedUpw = mapper.selUserByUid(dto.getUid());
+        System.out.println("savedIpw : " + savedUpw);
+        if(savedUpw == null){
             result = 2;
-        } else if (savedIpw.equals(dto.getIpw())){
+        } else if (savedUpw.equals(dto.getUpw())){
             result = 1;
         }
         return new ResVo(result);
