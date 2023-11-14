@@ -11,15 +11,13 @@
 
     <select id="selFeed">
         SELECT FA.ifeed, FA.contents, FA.location, A.created_at AS createdAt
-             , A.iuser, A.nm AS writer
+        , A.iuser, A.nm AS writer
         FROM t_user A
         JOIN t_feed FA
         ON A.iuser = FA.iuser
         ORDER BY FA.ifeed DESC
         LIMIT #{startIdx}, #{rowCount}
     </select>
-
-
     <!--  t_feed_pics  -->
     <insert id="insFeedPic">
         INSERT INTO t_feed_pics
@@ -29,12 +27,12 @@
             #{ifeed}, #{pic}
         </foreach>
     </insert>
-<!--  selFeedPics 호출해서 결과값 받아주세요.  -->
+    <!--  selFeedPics 호출해서 결과값 받아주세요.  -->
     <select id="selFeedPics">
         SELECT ifeed, pic
         FROM t_feed_pics
         WHERE ifeed in (
-<!--    맴버필드가 없기에 collection 마음대로 작명    -->
+        <!--    맴버필드가 없기에 collection 마음대로 작명    -->
         <foreach collection="list" item="ifeed" separator=",">
             #{ifeed}
         </foreach>

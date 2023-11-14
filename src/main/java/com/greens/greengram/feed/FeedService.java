@@ -31,7 +31,7 @@ public class FeedService {
     }
 
     public List<FeedSelVo> getFeed(int page){
-        final int ROW_COUNT = 30;//
+        final int ROW_COUNT = 30;
         FeedSelDto dto = FeedSelDto.builder()
                 .startIdx((page - 1) * ROW_COUNT)
                 .rowCount(ROW_COUNT)
@@ -60,6 +60,8 @@ public class FeedService {
 
 
 
-        return feedSelVoList;
+//        return feedSelVoList;
+        List<FeedSelVo> result = mapper.selFeed(dto);
+        return result;
     }
 }
