@@ -29,4 +29,15 @@
             #{ifeed}, #{pic}
         </foreach>
     </insert>
+<!--  selFeedPics 호출해서 결과값 받아주세요.  -->
+    <select id="selFeedPics">
+        SELECT ifeed, pic
+        FROM t_feed_pics
+        WHERE ifeed in (
+<!--    맴버필드가 없기에 collection 마음대로 작명    -->
+        <foreach collection="list" item="ifeed" separator=",">
+            #{ifeed}
+        </foreach>
+        )
+    </select>
 </mapper>
