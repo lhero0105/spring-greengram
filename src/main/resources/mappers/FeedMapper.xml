@@ -10,11 +10,16 @@
     </insert>
 
     <select id="selFeed">
-        SELECT FA.ifeed, FA.contents, FA.location, A.created_at AS createdAt
+        SELECT FA.ifeed, FA.contents, FA.location, FA.created_at AS createdAt
         , A.iuser, A.nm AS writer
+        , if(C.ifeed > 0, 1, 0) AS isFav
+
         FROM t_user A
         JOIN t_feed FA
         ON A.iuser = FA.iuser
+        LEFT JOIN t_favorite C
+        ON FA.ifeed = C.ifeed
+        AND C.iuser = #{iuser}
         ORDER BY FA.ifeed DESC
         LIMIT #{startIdx}, #{rowCount}
     </select>
@@ -38,4 +43,16 @@
         </foreach>
         )
     </select>
+
+    <!-- t_favorite-->
+    <delete id="delFeedFav">
+        DELETE FROM t_favorite
+        WHERE ifeed = #{ifeed}
+            AND iuser = #{iuser}
+    </delete>
+    <insert id="insFeedFav">
+        INSERT INTO t_favorite
+        SET ifeed = #{ifeed}
+            , iuser = #{iuser}
+    </insert>
 </mapper>

@@ -3,10 +3,9 @@ package com.greens.greengram.feed.model;
 import lombok.Builder;
 import lombok.Getter;
 
-@Builder
 @Getter
-public class FeedSelDto {
+@Builder
+public class FeedFavProcDto {
+    private int ifeed;
     private int iuser;
-    private int startIdx;
-    private int rowCount;
 }

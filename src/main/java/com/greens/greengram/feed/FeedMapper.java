@@ -13,4 +13,6 @@ public interface FeedMapper {
     int insFeedPic(FeedPicsInsProcDto dto);
     List<FeedSelVo> selFeed(FeedSelDto dto);
     List<FeedPicsVo> selFeedPics(List<Integer> p);
+    int delFeedFav(FeedFavProcDto dto);
+    int insFeedFav(FeedFavProcDto dto);
 }

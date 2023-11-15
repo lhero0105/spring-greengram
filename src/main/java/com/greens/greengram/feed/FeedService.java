@@ -30,9 +30,10 @@ public class FeedService {
         return new ResVo(pDto.getIfeed());
     }
 
-    public List<FeedSelVo> getFeed(int page){
-        final int ROW_COUNT = 30;
+    public List<FeedSelVo> getFeed(int page, int iuser){
+        final int ROW_COUNT = 5;
         FeedSelDto dto = FeedSelDto.builder()
+                .iuser(iuser)
                 .startIdx((page - 1) * ROW_COUNT)
                 .rowCount(ROW_COUNT)
                 .build();
@@ -45,23 +46,45 @@ public class FeedService {
             iFeedList.add(vo.getIfeed());
             feedMap.put(vo.getIfeed(), vo);
         }
-
-        for (FeedSelVo vo : feedSelVoList ) {
-            System.out.println(vo);
-            iFeedList.add(vo.getIfeed());
-        }
         System.out.println("--------------");
-        List<FeedPicsVo> feedPicsList = mapper.selFeedPics(iFeedList);
-        for (FeedPicsVo vo: feedPicsList) {
-            FeedSelVo feedVo = feedMap.get(vo.getIfeed());
-            List<String> strPicsList = feedVo.getPics();
-            strPicsList.add(vo.getPic());
+        if(iFeedList.size() > 0) {
+            List<FeedPicsVo> feedPicsList = mapper.selFeedPics(iFeedList);
+            for (FeedPicsVo vo : feedPicsList) {
+                FeedSelVo feedVo = feedMap.get(vo.getIfeed());
+                List<String> strPicsList = feedVo.getPics();
+                strPicsList.add(vo.getPic());
+            }
         }
 
+        // pics에 각 칼럼주솟값에 따라 pic들을 넣기 위한 과정입니다.
+        return feedSelVoList;
+    }
 
+    // 좋아요:1, 취소:2
+    public ResVo procFav(FeedFavProcDto dto) { // 데이터가 공급되는 겁니다.
+        // 방법 A ( 쿼리문 3개)
+        // 1 있는지 없는지 확인한다.
+        // 2 있으면 삭제처리, 없으면 등록처리
 
-//        return feedSelVoList;
-        List<FeedSelVo> result = mapper.selFeed(dto);
-        return result;
+        // 방법 B ( 쿼리문 2개 )
+        // 1 딜리트먼저
+/*        int num2 = 2;
+        int num = mapper.delFeedFav(dto);
+        if(num == 0){
+            int result = mapper.insFeedFav(dto);
+            return new ResVo(result);
+        }
+        return new ResVo(num2);*/
+
+        int affectedRow = mapper.delFeedFav(dto);
+        if(affectedRow == 1) {
+            return new ResVo(2);
+        }
+
+        int affectedRow2 = mapper.insFeedFav(dto);
+        if(affectedRow2 == 1) {
+            return new ResVo(1);
+        }
+        return null;
     }
 }
