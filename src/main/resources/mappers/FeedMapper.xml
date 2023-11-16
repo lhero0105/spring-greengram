@@ -8,7 +8,7 @@
         , contents = #{contents}
         , location = #{location}
     </insert>
-
+<!-- 로그인 할 iuser, 보고자하는 프로필 주인 iuser -->
     <select id="selFeed">
         SELECT FA.ifeed, FA.contents, FA.location, FA.created_at AS createdAt
         , A.iuser, A.nm AS writer
@@ -18,8 +18,14 @@
         JOIN t_feed FA
         ON A.iuser = FA.iuser
         LEFT JOIN t_favorite C
+        <!--단순 조인작업 입니다.-->
         ON FA.ifeed = C.ifeed
-        AND C.iuser = #{iuser}
+        <!--loginedIuser을 AND로 넣은 이유는 좋아요 기능 떄문입니다.-->
+        AND C.iuser = #{loginedIuser}
+        <!--where절에 유저pk값을 분기로 넣어줍니다,-->
+        <if test="targetIuser > 0">
+            WHERE A.iuser = #{targetIuser}
+        </if>
         ORDER BY FA.ifeed DESC
         LIMIT #{startIdx}, #{rowCount}
     </select>

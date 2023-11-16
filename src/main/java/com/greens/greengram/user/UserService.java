@@ -1,6 +1,6 @@
 package com.greens.greengram.user;
 
-import com.greens.greengram.ResVo;
+import com.greens.greengram.user.model.UserProfileInfoVo;
 import com.greens.greengram.user.model.UserInsDto;
 import com.greens.greengram.user.model.UserSigninProcVo;
 import com.greens.greengram.user.model.UserSigninVo;
@@ -32,5 +32,8 @@ public class UserService {
             vo.setPic(procVo.getPic());
         }
         return vo;
+    }
+    UserProfileInfoVo getUserProfileInfo(int targetIuser){
+        return mapper.selUserProfileInfo(targetIuser);
     }
 }

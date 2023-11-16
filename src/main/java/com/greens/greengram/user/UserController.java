@@ -1,6 +1,7 @@
 package com.greens.greengram.user;
 
 import com.greens.greengram.ResVo;
+import com.greens.greengram.user.model.UserProfileInfoVo;
 import com.greens.greengram.user.model.UserInsDto;
 import com.greens.greengram.user.model.UserSigninVo;
 import com.greens.greengram.user.model.UserSigninDto;
@@ -23,6 +24,11 @@ public class UserController {
     @PostMapping("/signin")
     public UserSigninVo login(@RequestBody UserSigninDto dto){
         return service.signin(dto);
+    }
+    // /api/user/2
+    @GetMapping("/{targetIuser}")
+    public UserProfileInfoVo getUserProfileInfo(@PathVariable int targetIuser){
+        return service.getUserProfileInfo(targetIuser);
     }
 
 }
